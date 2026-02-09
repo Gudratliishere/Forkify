@@ -1,7 +1,6 @@
 import icons from 'url:../img/icons.svg';
 import 'core-js/stable';
 import 'regenerator-runtime/runtime';
-const cleanIconsPath = icons.split('?')[0];
 
 const recipeContainer = document.querySelector('.recipe');
 
