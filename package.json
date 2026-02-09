@@ -1,0 +1,21 @@
+{
+  "name": "forkify",
+  "version": "1.0.0",
+  "description": "Recipe application",
+  "scripts": {
+    "start": "parcel index.html",
+    "buuild": "parcel build index.html"
+  },
+  "author": "Dunay Gudratli",
+  "license": "ISC",
+  "devDependencies": {
+    "@parcel/optimizer-data-url": "^2.16.4",
+    "@parcel/transformer-inline-string": "^2.16.4",
+    "@parcel/transformer-sass": "^2.16.4",
+    "parcel": "^2.16.4"
+  },
+  "dependencies": {
+    "core-js": "^3.48.0",
+    "regenerator-runtime": "^0.14.1"
+  }
+}
