@@ -1,4 +1,4 @@
-import * as model from './module.js';
+import * as model from './model.js';
 import recipeView from './views/recipeView.js';
 
 import 'core-js/stable';
@@ -19,6 +19,7 @@ const controlRecipes = async function () {
     recipeView.render(model.state.recipe);
   } catch (err) {
     console.log(err);
+    recipeView.renderError();
   }
 };
 

@@ -4,6 +4,8 @@ import Fraction from 'fraction.js';
 class RecipeView {
   #data;
   #parentElement = document.querySelector('.recipe');
+  #errorMessage= 'We could not find that recipe. Please try another one!'
+  #message= 'Success message!'
 
   render(data) {
     this.#data = data;
@@ -16,7 +18,7 @@ class RecipeView {
     this.#parentElement.innerHTML = '';
   }
 
-  renderSpinner = function () {
+  renderSpinner() {
     const markup = `
         <div class="spinner">
           <svg>
@@ -24,9 +26,39 @@ class RecipeView {
           </svg>
         </div>
     `;
-    this.#parentElement.innerHTML = '';
+    this.#clear()
     this.#parentElement.insertAdjacentHTML('afterbegin', markup);
   };
+
+  renderError(message = this.#errorMessage) {
+    const markup = `
+      <div class="error">
+        <div>
+          <svg>
+            <use href="${icons}#icon-alert-triangle"></use>
+          </svg>
+        </div>
+        <p>${message}</p>
+      </div>
+    `;
+    this.#clear()
+    this.#parentElement.insertAdjacentHTML('afterbegin', markup);
+  }
+
+  renderMessage(message = this.#message) {
+    const markup = `
+      <div class="message">
+        <div>
+          <svg>
+            <use href="${icons}#icon-smile"></use>
+          </svg>
+        </div>
+        <p>${message}</p>
+      </div>
+    `;
+    this.#clear()
+    this.#parentElement.insertAdjacentHTML('afterbegin', markup);
+  }
 
   #generateMarkup() {
     return `
@@ -45,8 +77,8 @@ class RecipeView {
               <use href="${icons}#icon-clock"></use>
             </svg>
             <span class="recipe__info-data recipe__info-data--minutes">${
-              this.#data.cookingTime
-            }</span>
+      this.#data.cookingTime
+    }</span>
             <span class="recipe__info-text">minutes</span>
           </div>
           <div class="recipe__info">
@@ -54,8 +86,8 @@ class RecipeView {
               <use href="${icons}#icon-users"></use>
             </svg>
             <span class="recipe__info-data recipe__info-data--people">${
-              this.#data.servings
-            }</span>
+      this.#data.servings
+    }</span>
             <span class="recipe__info-text">servings</span>
 
             <div class="recipe__info-buttons">
@@ -88,8 +120,8 @@ class RecipeView {
           <h2 class="heading--2">Recipe ingredients</h2>
           <ul class="recipe__ingredient-list">
             ${this.#data.ingredients
-              .map(this.#generateMarkupIngredient)
-              .join('')}
+      .map(this.#generateMarkupIngredient)
+      .join('')}
           </ul>
         </div>
 
@@ -98,8 +130,8 @@ class RecipeView {
           <p class="recipe__directions-text">
             This recipe was carefully designed and tested by
             <span class="recipe__publisher">${
-              this.#data.publisher
-            }</span>. Please check out
+      this.#data.publisher
+    }</span>. Please check out
             directions at their website.
           </p>
           <a
@@ -116,7 +148,7 @@ class RecipeView {
     `;
   }
 
-  addHandlerRender(handler){
+  addHandlerRender(handler) {
     ['hashchange', 'load'].forEach(event =>
       window.addEventListener(event, handler)
     );
@@ -129,8 +161,8 @@ class RecipeView {
         <use href="${icons}#icon-check"></use>
       </svg>
       <div class="recipe__quantity">${
-        ing.quantity ? new Fraction(ing.quantity).toFraction() : ''
-      }</div>
+      ing.quantity ? new Fraction(ing.quantity).toFraction() : ''
+    }</div>
       <div class="recipe__description">
         <span class="recipe__unit">${ing.unit}</span>
         ${ing.description}
