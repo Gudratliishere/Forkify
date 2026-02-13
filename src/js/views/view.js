@@ -2,6 +2,7 @@ import icons from 'url:../../img/icons.svg';
 
 export default class View {
   _data;
+
   render(data) {
     if (!data || (Array.isArray(data) && data.length === 0)) return this.renderError();
 
@@ -9,6 +10,32 @@ export default class View {
     const markup = this._generateMarkup();
     this._clear();
     this._parentElement.insertAdjacentHTML('afterbegin', markup);
+  }
+
+  update(data) {
+    this._data = data;
+    const markup = this._generateMarkup();
+
+    const newDOM = document.createRange()
+      .createContextualFragment(markup);
+    const newElements = Array.from(newDOM.querySelectorAll('*'));
+    const curElements = Array.from(
+      this._parentElement.querySelectorAll('*'));
+
+    newElements.forEach((newElement, i) => {
+      const curElement = curElements[i];
+
+      if (!newElement.isEqualNode(curElement) &&
+        newElement.firstChild?.nodeValue.trim() !== '') {
+        curElement.textContent = newElement.textContent;
+      }
+
+      if (!newElement.isEqualNode(curElement)) {
+        // curElement.outerHTML = newElement.outerHTML;
+        Array.from(newElement.attributes).forEach(attr =>
+          curElement.setAttribute(attr.name, attr.value));
+      }
+    });
   }
 
   _clear() {
@@ -23,7 +50,7 @@ export default class View {
           </svg>
         </div>
     `;
-    this._clear()
+    this._clear();
     this._parentElement.insertAdjacentHTML('afterbegin', markup);
   };
 
@@ -38,7 +65,7 @@ export default class View {
         <p>${message}</p>
       </div>
     `;
-    this._clear()
+    this._clear();
     this._parentElement.insertAdjacentHTML('afterbegin', markup);
   }
 
@@ -53,7 +80,7 @@ export default class View {
         <p>${message}</p>
       </div>
     `;
-    this._clear()
+    this._clear();
     this._parentElement.insertAdjacentHTML('afterbegin', markup);
   }
 }
